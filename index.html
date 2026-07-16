@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ile Iyan by Asake | Ekiti's Finest</title>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap');
+        
+        :root {
+            --ekiti-green: #2d5a27;
+            --vibrant-orange: #ff6600;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; line-height: 1.6; color: #333; }
+
+        .top-contact {
+            background: #222;
+            color: white;
+            padding: 12px 5%;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        header { 
+            background: var(--ekiti-green); 
+            padding: 1rem 5%; 
+            color: white; 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+        }
+
+        .hero {
+            height: 70vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('attachments/jolof.jpg') center/cover no-repeat;
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center;
+            color: white; 
+            text-align: center; 
+        }
+
+        .menu-section { 
+            padding: 80px 5%; 
+            background: #fdf5e6; 
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .menu-card {
+            background: white; 
+            border-radius: 20px; 
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            cursor: pointer;
+        }
+        .menu-card:hover { transform: translateY(-10px); }
+
+        .menu-card img { 
+            width: 100%; 
+            height: 220px; 
+            object-fit: cover; 
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-contact">
+        📍 Ado-Ekiti, Ekiti State &nbsp;&nbsp;|&nbsp;&nbsp; 
+        📞 <a href="tel:+2348156396171">+234 815 639 6171</a>
+    </div>
+
+    <header>
+        <nav>
+            <div class="logo" style="font-family: 'Playfair Display', serif; font-size: 1.9rem;">Ile Iyan by Asake</div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Welcome to Ile Iyan</h1>
+        <p style="font-size: 1.3rem; margin-top: 10px;">Authentic Ekiti Flavors</p>
+    </section>
+
+    <section class="menu-section" id="menu">
+        <h2 style="text-align: center; font-size: 2.5rem; color: var(--ekiti-green);">Our Ekiti Specials</h2>
+        <div class="menu-grid">
+
+            <div class="menu-card" onclick="showOrderModal('Ekiti Party Jollof', 4500)">
+                <img src="attachments/jolof.jpg" alt="Jollof">
+                <div style="padding:20px;">
+                    <h3>Ekiti Party Jollof</h3>
+                    <p>Smoky, authentic rice perfection.</p>
+                    <p style="color: var(--vibrant-orange); font-weight: bold;">₦4,500</p>
+                </div>
+            </div>
+
+            <div class="menu-card" onclick="showOrderModal('Iyan & Efo Riro', 5200)">
+                <img src="attachments/iyan.jpg" alt="Iyan">
+                <div style="padding:20px;">
+                    <h3>Iyan & Efo Riro</h3>
+                    <p>Traditional pounded yam with local greens.</p>
+                    <p style="color: var(--vibrant-orange); font-weight: bold;">₦5,200</p>
+                </div>
+            </div>
+
+            <div class="menu-card" onclick="showOrderModal('Ekiti Beef Suya', 3800)">
+                <img src="attachments/suya.jpg" alt="Suya">
+                <div style="padding:20px;">
+                    <h3>Ekiti Beef Suya</h3>
+                    <p>Spicy grilled beef skewers.</p>
+                    <p style="color: var(--vibrant-orange); font-weight: bold;">₦3,800</p>
+                </div>
+            </div>
+
+            <div class="menu-card" onclick="showOrderModal('Goat Meat Pepper Soup', 4800)">
+                <img src="attachments/pepper soup.jpg" alt="Pepper Soup">
+                <div style="padding:20px;">
+                    <h3>Goat Meat Pepper Soup</h3>
+                    <p>A spicy, soul-warming broth.</p>
+                    <p style="color: var(--vibrant-orange); font-weight: bold;">₦4,800</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Order Modal -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <span onclick="closeModal()" style="float:right; font-size:30px; cursor:pointer;">×</span>
+            <h2 id="modalDishName" style="color: var(--ekiti-green);"></h2>
+            <p id="modalPrice" style="font-size:1.6rem; color:var(--vibrant-orange);"></p>
+
+            <div style="margin:20px 0;">
+                <button onclick="changeQty(-1)" style="width:50px;height:50px;font-size:1.5rem;">−</button>
+                <span id="qty" style="margin:0 25px;font-size:1.5rem;font-weight:600;">1</span>
+                <button onclick="changeQty(1)" style="width:50px;height:50px;font-size:1.5rem;">+</button>
+            </div>
+
+            <button onclick="payWithPaystack()" style="width:100%; padding:14px; background:var(--vibrant-orange); color:white; border:none; border-radius:50px; margin-bottom:12px;">
+                Pay with Paystack
+            </button>
+
+            <button onclick="orderViaWhatsApp()" style="width:100%; padding:14px; background:#25D366; color:white; border:none; border-radius:50px;">
+                Order via WhatsApp
+            </button>
+
+            <div style="margin-top:20px; padding:15px; background:#f8f9fa; border-radius:12px; font-size:0.95rem;">
+                <p><strong>Bank Transfer</strong></p>
+                <p>Opay • 8156396171 • Afolarin Daniel Oladimeji</p>
+            </div>
+        </div>
+    </div>
+
+    <footer style="background:var(--ekiti-green); color:white; text-align:center; padding:40px;">
+        <p>&copy; 2026 Ile Iyan by Asake • Ado-Ekiti, Nigeria</p>
+    </footer>
+
+    <script>
+        let currentPrice = 0;
+        let quantity = 1;
+        let currentDish = "";
+
+        function showOrderModal(dish, price) {
+            currentDish = dish;
+            currentPrice = price;
+            quantity = 1;
+            document.getElementById('modalDishName').textContent = dish;
+            document.getElementById('modalPrice').textContent = '₦' + price;
+            document.getElementById('qty').textContent = quantity;
+            document.getElementById('orderModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('orderModal').style.display = 'none';
+        }
+
+        function changeQty(n) {
+            quantity = Math.max(1, quantity + n);
+            document.getElementById('qty').textContent = quantity;
+        }
+
+        function payWithPaystack() {
+            const total = currentPrice * quantity;
+            const handler = PaystackPop.setup({
+                key: 'pk_test_3cc0ee6d9bfcc8081b38e82b88cf0764a81ffcf5', // Replace with your Paystack key
+                email: 'customer@example.com',
+                amount: total * 100,
+                currency: "NGN",
+                ref: 'ILEIYAN_' + Math.floor(Math.random() * 1000000000),
+                callback: function(response) {
+                    alert('Payment successful! Reference: ' + response.reference);
+                    closeModal();
+                }
+            });
+            handler.openIframe();
+        }
+
+        function orderViaWhatsApp() {
+            const total = currentPrice * quantity;
+            const message = `Hello Ile Iyan by Asake!%0A%0AI want to order:%0A${quantity} × ${currentDish}%0ATotal: ₦${total}%0A%0AThank you!`;
+            window.open(`https://wa.me/2348156396171?text=${message}`, '_blank');
+            closeModal();
+        }
+    </script>
+
+</body>
+</html>
